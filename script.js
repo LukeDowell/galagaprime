@@ -1,5 +1,5 @@
 /**
- * Created by lukedowell. Feel free to use or edit this in any way.
+ * Created by beta cohort. Feel free to use or edit this in any way.
  */
 window.onload = function() {
 
@@ -97,7 +97,7 @@ window.onload = function() {
         }
 
         if(Key.isDown(Key.SPACE)) { //Not an elseif because we want to be able to move and shoot at the same time
-            if(timeLastFired === undefined || (timeframe - timeLastFired) >= 500) { //TODO: Firing like galaga. Figure dat shit out.
+            if(timeLastFired === undefined || (timeframe - timeLastFired) >= 500) { //TODO: Firing like galaga
                 var player = world.gameobjects[0];
                 var bullet = new Projectile([0, BULLET_SPEED], player.x+1, player.y + 2, Entities.Projectile.BULLET);
                 world.projectiles.push(bullet);
@@ -182,7 +182,7 @@ window.onload = function() {
         this.projectiles = []; //I want to store these separately because I don't need to do collision detection on everything
         /**
          * Deletes projectiles once they leave the screen. We will run this every 5 seconds to avoid
-         * unneccesary looping. Might put this in the projectile.calculate if I can figure out how
+         * unneccesary looping. //TODO: This method is only cleaning a few projectiles, not all of them.
          */
         this.sanitizeProjectiles = function() {
             var projLength = this.projectiles.length;
