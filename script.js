@@ -272,14 +272,9 @@ window.onload = function() {
      */
     function createAsteroid() {
         var spawnX = (Math.floor((Math.random() * canvas.width) + 1));
-        var asteroidXVector = (spawnX - world.gameobjects[0].x);
-        asteroidXVector = asteroidXVector/((canvas.height-(canvas.height - world.gameobjects[0].y)) / ASTEROID_SPEED);
-        /* Equalize speed between asteroids thrown striaght down and those thrown at an angle */
-        /* Calculate the "slope" or distance of our angled asteroid with Pythagorean Theorem */
+        var asteroidXVector = (spawnX - world.gameobjects[0].x)/((canvas.height-(canvas.height - world.gameobjects[0].y)) / ASTEROID_SPEED);
         var asteroidDistance = Math.sqrt(asteroidXVector*asteroidXVector + ASTEROID_SPEED * ASTEROID_SPEED);
-        /* Create a ratio between this distance and our straight on distance (ASTEROID_SPEED) */
         var asteroidSpeedRatio = ASTEROID_SPEED/asteroidDistance;
-        /* Reduce our asteroid x & y vectors by this ratio */
         asteroidXVector *= asteroidSpeedRatio;
         var asteroidYVector = ASTEROID_SPEED * asteroidSpeedRatio;
         var asteroidVector = [asteroidXVector, -asteroidYVector];
