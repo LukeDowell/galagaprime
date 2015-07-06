@@ -268,19 +268,21 @@ window.onload = function() {
     };
 
     /**
-     * Creates an asteroid and throws it downwards at our player. Eventually may want to adjust
-     to account for the size of the asteroid and player to create a more centered hit.
+     * Creates an asteroid and throws it downwards at our player. Eventually may want to adjust to account for the size of the asteroid and player to create a more centered hit as opposed to head on.
      */
     function createAsteroid() {
         var spawnX = (Math.floor((Math.random() * canvas.width) + 1));
-        /* Find the distance between the spawned ateroid and the player object
-        on the x axis */
         var asteroidXVector = (spawnX - world.gameobjects[0].x);
-        /* break this down into steps so we can animate over time. Divide the
-        the height of the canvas (minus the y position of the player object) by
-        the speed of the asteroid.*/
         asteroidXVector = asteroidXVector/((canvas.height-(canvas.height - world.gameobjects[0].y)) / ASTEROID_SPEED);
-        var asteroidVector = [asteroidXVector, -ASTEROID_SPEED];
+        /* Equalize speed between asteroids thrown striaght down and those thrown at an angle */
+        /* Calculate the "slope" or distance of our angled asteroid with Pythagorean Theorem */
+        var asteroidDistance = Math.sqrt(asteroidXVector*asteroidXVector + ASTEROID_SPEED * ASTEROID_SPEED);
+        /* Create a ratio between this distance and our straight on distance (ASTEROID_SPEED) */
+        var asteroidSpeedRatio = ASTEROID_SPEED/asteroidDistance;
+        /* Reduce our asteroid x & y vectors by this ratio */
+        asteroidXVector *= asteroidSpeedRatio;
+        var asteroidYVector = ASTEROID_SPEED * asteroidSpeedRatio;
+        var asteroidVector = [asteroidXVector, -asteroidYVector];
         var asteroid = new Projectile(asteroidVector, spawnX, -15, Entities.Projectile.ASTEROID);
         world.projectiles.push(asteroid);
         console.log(asteroid.toString() + " CREATED!");
