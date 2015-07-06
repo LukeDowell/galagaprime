@@ -14,7 +14,7 @@ window.onload = function() {
 
     var PLAYER_SPEED = 2; //How fast we want our ship to move
     var BULLET_SPEED = 5;
-    var ASTEROID_SPEED = -3; //How fast our asteroid moves
+    var ASTEROID_SPEED = 3; //How fast our asteroid moves
     var SANITIZE_RATE = 10000; //How often we should clean projectiles in millis
 
     /**
@@ -268,13 +268,16 @@ window.onload = function() {
     };
 
     /**
-     * Creates an asteroid and throws it downwards. Eventually we want to figure out how
-     * to throw them at our player
+     * Creates an asteroid and throws it downwards at our player. Eventually may want to adjust to account for the size of the asteroid and player to create a more centered hit as opposed to head on.
      */
     function createAsteroid() {
         var spawnX = (Math.floor((Math.random() * canvas.width) + 1));
-        var player = world.gameobjects[0];
-        var asteroidVector = [0, ASTEROID_SPEED];
+        var asteroidXVector = (spawnX - world.gameobjects[0].x)/((canvas.height-(canvas.height - world.gameobjects[0].y)) / ASTEROID_SPEED);
+        var asteroidDistance = Math.sqrt(asteroidXVector*asteroidXVector + ASTEROID_SPEED * ASTEROID_SPEED);
+        var asteroidSpeedRatio = ASTEROID_SPEED/asteroidDistance;
+        asteroidXVector *= asteroidSpeedRatio;
+        var asteroidYVector = ASTEROID_SPEED * asteroidSpeedRatio;
+        var asteroidVector = [asteroidXVector, -asteroidYVector];
         var asteroid = new Projectile(asteroidVector, spawnX, -15, Entities.Projectile.ASTEROID);
         world.projectiles.push(asteroid);
         console.log(asteroid.toString() + " CREATED!");
